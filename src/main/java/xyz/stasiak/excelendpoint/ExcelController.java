@@ -16,9 +16,9 @@ import java.io.InputStream;
 @RequestMapping("/api")
 class ExcelController {
 
-    private final StaticResourceProvider resourceProvider;
+    private final ResourceProvider resourceProvider;
 
-    ExcelController(StaticResourceProvider resourceProvider) {
+    ExcelController(ResourceProvider resourceProvider) {
         this.resourceProvider = resourceProvider;
     }
 

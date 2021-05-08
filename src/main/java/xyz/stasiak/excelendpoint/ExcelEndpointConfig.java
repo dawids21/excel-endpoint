@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 class ExcelEndpointConfig {
 
     @Bean
-    StaticResourceProvider resourceProvider() {
+    ResourceProvider resourceProvider() {
         return new StaticResourceProvider();
     }
 }
