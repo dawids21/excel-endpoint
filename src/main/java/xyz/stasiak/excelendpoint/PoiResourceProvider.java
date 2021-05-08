@@ -18,6 +18,7 @@ class PoiResourceProvider implements ResourceProvider {
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
+            return Optional.empty();
         }
 
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
