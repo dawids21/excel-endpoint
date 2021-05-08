@@ -11,17 +11,19 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 class ExcelController {
 
+    private final StaticResourceProvider staticResourceProvider = new StaticResourceProvider();
+
     @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     ResponseEntity<Resource> getWorkbook(@PathVariable String filename) throws IOException {
 
-        InputStream resourceStream = getResourceStream().orElseThrow(
-                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
+        InputStream resourceStream = staticResourceProvider.getResourceStream()
+                                                           .orElseThrow(() -> new ResponseStatusException(
+                                                                    HttpStatus.NOT_FOUND, "File not found"));
         InputStreamResource resource = new InputStreamResource(resourceStream);
 
         HttpHeaders headers = new HttpHeaders();
@@ -32,11 +34,6 @@ class ExcelController {
                              .contentType(MediaType.APPLICATION_OCTET_STREAM)
                              .headers(headers)
                              .body(resource);
-    }
-
-    private Optional<InputStream> getResourceStream() {
-        return Optional.ofNullable(getClass().getClassLoader()
-                                             .getResourceAsStream("static/example-workbook.xlsx"));
     }
 
     private ContentDisposition getContentDisposition(String filename) {
