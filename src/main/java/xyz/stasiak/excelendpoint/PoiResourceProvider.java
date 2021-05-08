@@ -14,7 +14,7 @@ class PoiResourceProvider implements ResourceProvider {
     @Override
     public Optional<InputStream> getResourceStream() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (Workbook workbook = new XSSFWorkbook()) {
+        try (Workbook workbook = getWorkbook()) {
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -23,5 +23,9 @@ class PoiResourceProvider implements ResourceProvider {
 
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         return Optional.of(inputStream);
+    }
+
+    private Workbook getWorkbook() {
+        return new XSSFWorkbook();
     }
 }
