@@ -26,17 +26,21 @@ class ExcelController {
                                  .build();
         }
         InputStreamResource resource = new InputStreamResource(resourceStream);
+
         HttpHeaders headers = new HttpHeaders();
-        ContentDisposition contentDisposition = ContentDisposition.builder("inline")
-                                                                  .filename("example-workbook.xlsx")
-                                                                  .build();
-        headers.setContentDisposition(contentDisposition);
+        headers.setContentDisposition(getContentDisposition("example-workbook.xlsx"));
 
         return ResponseEntity.ok()
                              .contentLength(resourceStream.available())
                              .contentType(MediaType.APPLICATION_OCTET_STREAM)
                              .headers(headers)
                              .body(resource);
+    }
+
+    private ContentDisposition getContentDisposition(String filename) {
+        return ContentDisposition.builder("inline")
+                                 .filename(filename)
+                                 .build();
     }
 
 }
