@@ -16,9 +16,9 @@ import java.util.Optional;
 @RequestMapping("/api")
 class ExcelController {
 
-    @GetMapping(value = "/workbook", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/excel", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     ResponseEntity<Resource> getWorkbook() throws IOException {
-       
+
         InputStream resourceStream = getResourceStream().orElseThrow(
                  () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
         InputStreamResource resource = new InputStreamResource(resourceStream);
