@@ -16,7 +16,11 @@ import java.io.InputStream;
 @RequestMapping("/api")
 class ExcelController {
 
-    private final StaticResourceProvider staticResourceProvider = new StaticResourceProvider();
+    private final StaticResourceProvider staticResourceProvider;
+
+    ExcelController(StaticResourceProvider staticResourceProvider) {
+        this.staticResourceProvider = staticResourceProvider;
+    }
 
     @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     ResponseEntity<Resource> getWorkbook(@PathVariable String filename) throws IOException {
