@@ -2,6 +2,8 @@ package xyz.stasiak.excelendpoint;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +26,16 @@ class ExcelController {
                                  .build();
         }
         InputStreamResource resource = new InputStreamResource(resourceStream);
+        HttpHeaders headers = new HttpHeaders();
+        ContentDisposition contentDisposition = ContentDisposition.builder("inline")
+                                                                  .filename("example-workbook.xlsx")
+                                                                  .build();
+        headers.setContentDisposition(contentDisposition);
+
         return ResponseEntity.ok()
                              .contentLength(resourceStream.available())
                              .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                             .headers(headers)
                              .body(resource);
     }
 
