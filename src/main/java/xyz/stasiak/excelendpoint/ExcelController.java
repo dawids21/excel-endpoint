@@ -16,18 +16,19 @@ import java.io.InputStream;
 @RequestMapping("/api")
 class ExcelController {
 
-    private final StaticResourceProvider staticResourceProvider;
+    private final StaticResourceProvider resourceProvider;
 
-    ExcelController(StaticResourceProvider staticResourceProvider) {
-        this.staticResourceProvider = staticResourceProvider;
+    ExcelController(StaticResourceProvider resourceProvider) {
+        this.resourceProvider = resourceProvider;
     }
 
     @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     ResponseEntity<Resource> getWorkbook(@PathVariable String filename) throws IOException {
 
-        InputStream resourceStream = staticResourceProvider.getResourceStream()
-                                                           .orElseThrow(() -> new ResponseStatusException(
-                                                                    HttpStatus.NOT_FOUND, "File not found"));
+        InputStream resourceStream = resourceProvider.getResourceStream()
+                                                     .orElseThrow(
+                                                              () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                                                                "File not found"));
         InputStreamResource resource = new InputStreamResource(resourceStream);
 
         HttpHeaders headers = new HttpHeaders();
