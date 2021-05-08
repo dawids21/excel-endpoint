@@ -19,6 +19,10 @@ class ExcelController {
     ResponseEntity<Resource> getWorkbook() throws IOException {
         InputStream resourceStream = getClass().getClassLoader()
                                                .getResourceAsStream("static/example-workbook.xlsx");
+        if (resourceStream == null) {
+            return ResponseEntity.notFound()
+                                 .build();
+        }
         InputStreamResource resource = new InputStreamResource(resourceStream);
         return ResponseEntity.ok()
                              .contentLength(resourceStream.available())
