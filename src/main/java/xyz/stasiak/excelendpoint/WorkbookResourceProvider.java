@@ -1,11 +1,10 @@
 package xyz.stasiak.excelendpoint;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.core.io.ByteArrayResource;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
 class WorkbookResourceProvider implements ResourceProvider {
@@ -17,7 +16,7 @@ class WorkbookResourceProvider implements ResourceProvider {
     }
 
     @Override
-    public Optional<InputStream> getResourceStream() {
+    public Optional<ByteArrayResource> getResource() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try (Workbook workbook = workbookGenerator.getWorkbook()) {
             workbook.write(outputStream);
@@ -26,7 +25,6 @@ class WorkbookResourceProvider implements ResourceProvider {
             return Optional.empty();
         }
 
-        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        return Optional.of(inputStream);
+        return Optional.of(new ByteArrayResource(outputStream.toByteArray()));
     }
 }
