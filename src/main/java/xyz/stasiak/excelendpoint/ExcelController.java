@@ -1,5 +1,7 @@
 package xyz.stasiak.excelendpoint;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -23,7 +25,9 @@ class ExcelController {
     }
 
     @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    ResponseEntity<Resource> getWorkbook(@PathVariable String filename) throws IOException {
+    @ApiOperation(value = "Get Excel file with specified filename")
+    ResponseEntity<Resource> getWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename)
+             throws IOException {
 
         InputStream resourceStream = resourceProvider.getResourceStream()
                                                      .orElseThrow(
@@ -43,7 +47,7 @@ class ExcelController {
 
     private ContentDisposition getContentDisposition(String filename) {
         String filenameWithExtension = filename + (filename.endsWith(".xlsx") ? "" : ".xlsx");
-        return ContentDisposition.builder("inline")
+        return ContentDisposition.builder("attachment")
                                  .filename(filenameWithExtension)
                                  .build();
     }
