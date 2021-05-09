@@ -3,7 +3,7 @@ package xyz.stasiak.excelendpoint;
 import java.io.InputStream;
 import java.util.Optional;
 
-public class StaticResourceProvider implements ResourceProvider {
+class StaticResourceProvider implements ResourceProvider {
 
     @Override
     public Optional<InputStream> getResourceStream() {
