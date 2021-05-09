@@ -1,7 +1,6 @@
 package xyz.stasiak.excelendpoint;
 
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,10 +10,16 @@ import java.util.Optional;
 
 class PoiResourceProvider implements ResourceProvider {
 
+    private final XSSFWorkbookGenerator workbookGenerator;
+
+    PoiResourceProvider(XSSFWorkbookGenerator xssfWorkbookGenerator) {
+        workbookGenerator = xssfWorkbookGenerator;
+    }
+
     @Override
     public Optional<InputStream> getResourceStream() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (Workbook workbook = getWorkbook()) {
+        try (Workbook workbook = workbookGenerator.getWorkbook()) {
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -23,9 +28,5 @@ class PoiResourceProvider implements ResourceProvider {
 
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         return Optional.of(inputStream);
-    }
-
-    private Workbook getWorkbook() {
-        return new XSSFWorkbook();
     }
 }
