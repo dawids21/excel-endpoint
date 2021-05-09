@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-class PoiResourceProvider implements ResourceProvider {
+class WorkbookResourceProvider implements ResourceProvider {
 
     private final WorkbookGenerator workbookGenerator;
 
-    PoiResourceProvider(WorkbookGenerator workbookGenerator) {
+    WorkbookResourceProvider(WorkbookGenerator workbookGenerator) {
         this.workbookGenerator = workbookGenerator;
     }
 

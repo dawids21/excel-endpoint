@@ -8,6 +8,6 @@ class ExcelEndpointConfig {
 
     @Bean
     ResourceProvider resourceProvider() {
-        return new PoiResourceProvider(new XSSFWorkbookGenerator());
+        return new WorkbookResourceProvider(new XSSFWorkbookGenerator());
     }
 }
