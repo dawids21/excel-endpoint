@@ -26,9 +26,9 @@ class ExcelController {
     ResponseEntity<Resource> getWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
 
         ByteArrayResource resource = resourceProvider.getResource()
-                                                     .orElseThrow(
-                                                              () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                                                                "File not found"));
+                                                     .orElseThrow(() -> new ResponseStatusException(
+                                                              HttpStatus.INTERNAL_SERVER_ERROR,
+                                                              "Error while generating Excel file"));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(getContentDisposition(filename));
