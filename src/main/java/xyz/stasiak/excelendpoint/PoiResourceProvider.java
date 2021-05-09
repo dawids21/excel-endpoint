@@ -10,10 +10,10 @@ import java.util.Optional;
 
 class PoiResourceProvider implements ResourceProvider {
 
-    private final XSSFWorkbookGenerator workbookGenerator;
+    private final WorkbookGenerator workbookGenerator;
 
-    PoiResourceProvider(XSSFWorkbookGenerator xssfWorkbookGenerator) {
-        workbookGenerator = xssfWorkbookGenerator;
+    PoiResourceProvider(WorkbookGenerator workbookGenerator) {
+        this.workbookGenerator = workbookGenerator;
     }
 
     @Override
