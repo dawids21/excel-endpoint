@@ -42,8 +42,9 @@ class ExcelController {
     }
 
     private ContentDisposition getContentDisposition(String filename) {
+        String filenameWithExtension = filename + (filename.endsWith(".xlsx") ? "" : ".xlsx");
         return ContentDisposition.builder("inline")
-                                 .filename(filename)
+                                 .filename(filenameWithExtension)
                                  .build();
     }
 
