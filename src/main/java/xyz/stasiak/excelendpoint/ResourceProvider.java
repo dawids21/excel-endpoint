@@ -1,9 +1,10 @@
 package xyz.stasiak.excelendpoint;
 
-import java.io.InputStream;
+import org.springframework.core.io.ByteArrayResource;
+
 import java.util.Optional;
 
 interface ResourceProvider {
 
-    Optional<InputStream> getResourceStream();
+    Optional<ByteArrayResource> getResource();
 }
