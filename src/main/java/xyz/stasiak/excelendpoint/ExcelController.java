@@ -50,4 +50,17 @@ class ExcelController {
     private enum Type {
         STATIC, EMPTY
     }
+
+    private ByteArrayResource getResource(Type type) {
+        ResourceProvider resourceProvider;
+        if (type == Type.EMPTY) {
+            resourceProvider = new WorkbookResourceProvider(new XSSFWorkbookGenerator());
+        } else {
+            resourceProvider = new StaticResourceProvider();
+        }
+
+        return resourceProvider.getResource()
+                               .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                                                                              "Error while generating Excel file"));
+    }
 }
