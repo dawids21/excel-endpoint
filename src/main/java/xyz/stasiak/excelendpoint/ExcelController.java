@@ -51,7 +51,7 @@ class ExcelController {
     private ByteArrayResource getResource(Type type) {
         ResourceProvider resourceProvider;
         if (type == Type.EMPTY) {
-            resourceProvider = new EmptyWorkbookResourceProvider(new EmptyXSSFWorkbookGenerator());
+            resourceProvider = new WorkbookResourceProvider(new EmptyXSSFWorkbookGenerator());
         } else {
             resourceProvider = new StaticResourceProvider();
         }
