@@ -15,6 +15,12 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/excel")
 class ExcelController {
 
+    private final CovidRestClient covidRestClient;
+
+    ExcelController(CovidRestClient covidRestClient) {
+        this.covidRestClient = covidRestClient;
+    }
+
     @GetMapping(value = "/empty/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ApiOperation(value = "Get Excel file with specified filename")
     ResponseEntity<Resource> getEmptyWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
