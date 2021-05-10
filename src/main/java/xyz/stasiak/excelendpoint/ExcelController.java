@@ -15,12 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api")
 class ExcelController {
 
-    private final ResourceProvider resourceProvider;
-
-    ExcelController(ResourceProvider resourceProvider) {
-        this.resourceProvider = resourceProvider;
-    }
-
     @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ApiOperation(value = "Get Excel file with specified filename")
     ResponseEntity<Resource> getWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
