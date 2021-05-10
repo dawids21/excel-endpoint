@@ -22,7 +22,7 @@ class CovidRestClient {
     @Value("${rapidapi.host.covid.value}")
     private String hostValue;
 
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     CovidRestClient(RestTemplateBuilder restTemplateBuilder) {
         restTemplate = restTemplateBuilder.build();
