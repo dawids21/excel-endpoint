@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/excel")
 class ExcelController {
 
-    @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/empty/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ApiOperation(value = "Get Excel file with specified filename")
-    ResponseEntity<Resource> getWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
+    ResponseEntity<Resource> getEmptyWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
 
         ByteArrayResource resource = getResource(Type.EMPTY);
 
