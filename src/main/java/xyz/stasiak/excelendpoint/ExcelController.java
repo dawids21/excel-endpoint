@@ -45,13 +45,15 @@ class ExcelController {
     }
 
     private enum Type {
-        STATIC, EMPTY
+        STATIC, EMPTY, COVID
     }
 
     private ByteArrayResource getResource(Type type) {
         ResourceProvider resourceProvider;
         if (type == Type.EMPTY) {
             resourceProvider = new WorkbookResourceProvider(new EmptyXSSFWorkbookGenerator());
+        } else if (type == Type.COVID) {
+            resourceProvider = new WorkbookResourceProvider(new CovidXSSFWorkbookGenerator(covidRestClient));
         } else {
             resourceProvider = new StaticResourceProvider();
         }
