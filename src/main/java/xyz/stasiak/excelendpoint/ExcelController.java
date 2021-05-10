@@ -25,10 +25,7 @@ class ExcelController {
     @ApiOperation(value = "Get Excel file with specified filename")
     ResponseEntity<Resource> getWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
 
-        ByteArrayResource resource = resourceProvider.getResource()
-                                                     .orElseThrow(() -> new ResponseStatusException(
-                                                              HttpStatus.INTERNAL_SERVER_ERROR,
-                                                              "Error while generating Excel file"));
+        ByteArrayResource resource = getResource(Type.EMPTY);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(getContentDisposition(filename));
