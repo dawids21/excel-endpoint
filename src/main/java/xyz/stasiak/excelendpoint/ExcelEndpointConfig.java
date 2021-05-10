@@ -17,11 +17,6 @@ import java.util.Collections;
 class ExcelEndpointConfig {
 
     @Bean
-    ResourceProvider resourceProvider() {
-        return new WorkbookResourceProvider(new XSSFWorkbookGenerator());
-    }
-
-    @Bean
     Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2).select()
                                                       .apis(RequestHandlerSelectors.basePackage(

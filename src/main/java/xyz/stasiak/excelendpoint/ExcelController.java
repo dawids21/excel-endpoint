@@ -12,23 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/excel")
 class ExcelController {
 
-    private final ResourceProvider resourceProvider;
-
-    ExcelController(ResourceProvider resourceProvider) {
-        this.resourceProvider = resourceProvider;
-    }
-
-    @GetMapping(value = "/excel/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/empty/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ApiOperation(value = "Get Excel file with specified filename")
-    ResponseEntity<Resource> getWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
+    ResponseEntity<Resource> getEmptyWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
 
-        ByteArrayResource resource = resourceProvider.getResource()
-                                                     .orElseThrow(() -> new ResponseStatusException(
-                                                              HttpStatus.INTERNAL_SERVER_ERROR,
-                                                              "Error while generating Excel file"));
+        ByteArrayResource resource = getResource(Type.EMPTY);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(getContentDisposition(filename));
@@ -47,4 +38,20 @@ class ExcelController {
                                  .build();
     }
 
+    private enum Type {
+        STATIC, EMPTY
+    }
+
+    private ByteArrayResource getResource(Type type) {
+        ResourceProvider resourceProvider;
+        if (type == Type.EMPTY) {
+            resourceProvider = new EmptyWorkbookResourceProvider(new EmptyXSSFWorkbookGenerator());
+        } else {
+            resourceProvider = new StaticResourceProvider();
+        }
+
+        return resourceProvider.getResource()
+                               .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                                                                              "Error while generating Excel file"));
+    }
 }
