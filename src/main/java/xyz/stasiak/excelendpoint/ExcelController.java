@@ -47,4 +47,7 @@ class ExcelController {
                                  .build();
     }
 
+    private enum Type {
+        STATIC, EMPTY
+    }
 }
