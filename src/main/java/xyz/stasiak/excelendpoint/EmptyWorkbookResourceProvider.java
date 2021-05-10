@@ -7,11 +7,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-class WorkbookResourceProvider implements ResourceProvider {
+class EmptyWorkbookResourceProvider implements ResourceProvider {
 
     private final WorkbookGenerator workbookGenerator;
 
-    WorkbookResourceProvider(WorkbookGenerator workbookGenerator) {
+    EmptyWorkbookResourceProvider(WorkbookGenerator workbookGenerator) {
         this.workbookGenerator = workbookGenerator;
     }
 
