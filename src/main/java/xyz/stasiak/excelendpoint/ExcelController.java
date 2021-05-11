@@ -37,6 +37,23 @@ class ExcelController {
                              .body(resource);
     }
 
+    @GetMapping(value = "/covid/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ApiOperation(value = "Get Excel file with specified filename containing data about COVID-19")
+    ResponseEntity<Resource> getCovidWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
+
+        ByteArrayResource resource = getResource(Type.COVID);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(getContentDisposition(filename));
+
+        return ResponseEntity.ok()
+                             .contentLength(resource.contentLength())
+                             .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                             .headers(headers)
+                             .body(resource);
+    }
+
+
     private ContentDisposition getContentDisposition(String filename) {
         String filenameWithExtension = filename + (filename.endsWith(".xlsx") ? "" : ".xlsx");
         return ContentDisposition.builder("attachment")
