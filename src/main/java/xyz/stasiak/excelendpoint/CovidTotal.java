@@ -1,99 +1,94 @@
 package xyz.stasiak.excelendpoint;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import javax.annotation.Generated;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"active", "confirmed", "critical", "date", "deaths", "recovered"})
-@Generated("jsonschema2pojo")
+@JsonDeserialize(using = CovidTotalDeserializer.class)
 class CovidTotal {
 
-    @JsonProperty("active")
-    private Integer active;
-    @JsonProperty("confirmed")
-    private Integer confirmed;
-    @JsonProperty("critical")
-    private Integer critical;
-    @JsonProperty("date")
-    private String date;
-    @JsonProperty("deaths")
-    private Integer deaths;
-    @JsonProperty("recovered")
-    private Integer recovered;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private String country;
+    private LocalDateTime updateDate;
+    private Integer activeCases;
+    private Integer totalCases;
+    private Integer totalDeaths;
+    private Integer totalRecovered;
+    private Integer newCases;
+    private Integer newDeaths;
 
-    @JsonProperty("active")
-    Integer getActive() {
-        return active;
+    CovidTotal(String country, LocalDateTime updateDate, Integer activeCases, Integer totalCases, Integer totalDeaths,
+               Integer totalRecovered, Integer newCases, Integer newDeaths) {
+        this.country = country;
+        this.updateDate = updateDate;
+        this.activeCases = activeCases;
+        this.totalCases = totalCases;
+        this.totalDeaths = totalDeaths;
+        this.totalRecovered = totalRecovered;
+        this.newCases = newCases;
+        this.newDeaths = newDeaths;
     }
 
-    @JsonProperty("active")
-    public void setActive(Integer active) {
-        this.active = active;
+    String getCountry() {
+        return country;
     }
 
-    @JsonProperty("confirmed")
-    Integer getConfirmed() {
-        return confirmed;
+    void setCountry(String country) {
+        this.country = country;
     }
 
-    @JsonProperty("confirmed")
-    public void setConfirmed(Integer confirmed) {
-        this.confirmed = confirmed;
+    LocalDateTime getUpdateDate() {
+        return updateDate;
     }
 
-    @JsonProperty("critical")
-    Integer getCritical() {
-        return critical;
+    void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
     }
 
-    @JsonProperty("critical")
-    public void setCritical(Integer critical) {
-        this.critical = critical;
+    Integer getActiveCases() {
+        return activeCases;
     }
 
-    @JsonProperty("date")
-    String getDate() {
-        return date;
+    void setActiveCases(Integer activeCases) {
+        this.activeCases = activeCases;
     }
 
-    @JsonProperty("date")
-    public void setDate(String date) {
-        this.date = date;
+    Integer getTotalCases() {
+        return totalCases;
     }
 
-    @JsonProperty("deaths")
-    Integer getDeaths() {
-        return deaths;
+    void setTotalCases(Integer totalCases) {
+        this.totalCases = totalCases;
     }
 
-    @JsonProperty("deaths")
-    public void setDeaths(Integer deaths) {
-        this.deaths = deaths;
+    Integer getTotalDeaths() {
+        return totalDeaths;
     }
 
-    @JsonProperty("recovered")
-    Integer getRecovered() {
-        return recovered;
+    void setTotalDeaths(Integer totalDeaths) {
+        this.totalDeaths = totalDeaths;
     }
 
-    @JsonProperty("recovered")
-    public void setRecovered(Integer recovered) {
-        this.recovered = recovered;
+    Integer getTotalRecovered() {
+        return totalRecovered;
     }
 
-    @JsonAnyGetter
-    Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    void setTotalRecovered(Integer totalRecovered) {
+        this.totalRecovered = totalRecovered;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    Integer getNewCases() {
+        return newCases;
     }
 
+    void setNewCases(Integer newCases) {
+        this.newCases = newCases;
+    }
+
+    Integer getNewDeaths() {
+        return newDeaths;
+    }
+
+    void setNewDeaths(Integer newDeaths) {
+        this.newDeaths = newDeaths;
+    }
 }
