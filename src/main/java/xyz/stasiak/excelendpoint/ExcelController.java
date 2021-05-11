@@ -15,6 +15,12 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/excel")
 class ExcelController {
 
+    private final CovidRestClient covidRestClient;
+
+    ExcelController(CovidRestClient covidRestClient) {
+        this.covidRestClient = covidRestClient;
+    }
+
     @GetMapping(value = "/empty/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ApiOperation(value = "Get Excel file with specified filename")
     ResponseEntity<Resource> getEmptyWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
@@ -31,6 +37,23 @@ class ExcelController {
                              .body(resource);
     }
 
+    @GetMapping(value = "/covid/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ApiOperation(value = "Get Excel file with specified filename containing data about COVID-19")
+    ResponseEntity<Resource> getCovidWorkbook(@ApiParam(defaultValue = "spreadsheet") @PathVariable String filename) {
+
+        ByteArrayResource resource = getResource(Type.COVID);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(getContentDisposition(filename));
+
+        return ResponseEntity.ok()
+                             .contentLength(resource.contentLength())
+                             .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                             .headers(headers)
+                             .body(resource);
+    }
+
+
     private ContentDisposition getContentDisposition(String filename) {
         String filenameWithExtension = filename + (filename.endsWith(".xlsx") ? "" : ".xlsx");
         return ContentDisposition.builder("attachment")
@@ -39,13 +62,15 @@ class ExcelController {
     }
 
     private enum Type {
-        STATIC, EMPTY
+        STATIC, EMPTY, COVID
     }
 
     private ByteArrayResource getResource(Type type) {
         ResourceProvider resourceProvider;
         if (type == Type.EMPTY) {
-            resourceProvider = new EmptyWorkbookResourceProvider(new EmptyXSSFWorkbookGenerator());
+            resourceProvider = new WorkbookResourceProvider(new EmptyXSSFWorkbookGenerator());
+        } else if (type == Type.COVID) {
+            resourceProvider = new WorkbookResourceProvider(new CovidXSSFWorkbookGenerator(covidRestClient));
         } else {
             resourceProvider = new StaticResourceProvider();
         }
